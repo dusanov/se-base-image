@@ -5,8 +5,7 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 
-blocks:
-# empty
+#blocks:
 promotions:
   - name: Dockerize
     pipeline_file: docker-build.yml
