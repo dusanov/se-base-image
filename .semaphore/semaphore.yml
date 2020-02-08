@@ -5,7 +5,22 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 
-#blocks:
+blocks:
+  - name: "Dummy block"
+    task:
+      env_vars:
+        - name: APP_ENV
+          value: prod
+      jobs:
+      - name: Docker build
+        commands:
+          - checkout
+          - ls -1
+          - echo $APP_ENV
+          - echo "Docker build..."
+          - echo "done"
+
+
 promotions:
   - name: Dockerize
     pipeline_file: docker-build.yml
