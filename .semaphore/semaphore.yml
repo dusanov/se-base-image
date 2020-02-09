@@ -1,5 +1,5 @@
 version: v1.0
-name: Empty pipeline to build and push docker image
+name: Pipeline to build and push docker image
 agent:
   machine:
     type: e1-standard-2
