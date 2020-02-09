@@ -21,3 +21,4 @@ blocks:
           - docker pull "${DOCKER_USERNAME}/se-base-image:latest" || true
           - docker build --cache-from "${DOCKER_USERNAME}/se-base-image:latest" -t "${DOCKER_USERNAME}/se-base-image:$SEMAPHORE_WORKFLOW_ID" -t "${DOCKER_USERNAME}/se-base-image:latest" .
           - docker push "${DOCKER_USERNAME}/se-base-image:$SEMAPHORE_WORKFLOW_ID"
+          - docker push "${DOCKER_USERNAME}/se-base-image:latest"
