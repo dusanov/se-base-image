@@ -6,23 +6,25 @@ agent:
     os_image: ubuntu1804
 
 blocks:
-  - name: "Dummy block"
+  - name: "Build image and push to dockerhub "
     task:
-      env_vars:
-        - name: APP_ENV
-          value: prod
+      secrets:
+      - name: dockerhub
+
+      prologue:
+        commands:
+          - checkout
+          - echo "$DOCKER_PASSWORD" | docker login  --username "$DOCKER_USERNAME" --password-stdin
       jobs:
       - name: Docker build
         commands:
-          - checkout
-          - ls -1
-          - echo $APP_ENV
-          - echo "Docker build..."
-          - echo "done"
+          - docker pull "${DOCKER_USERNAME}/se-base-image:latest" || true
+          - docker build --cache-from "${DOCKER_USERNAME}/se-base-image:latest" -t "${DOCKER_USERNAME}/se-base-image:$SEMAPHORE_WORKFLOW_ID" .
+          - docker push "${DOCKER_USERNAME}/se-base-image:$SEMAPHORE_WORKFLOW_ID"
 
 
-promotions:
-  - name: Dockerize
-    pipeline_file: docker-build.yml
-    auto_promote_on:
-      - result: passed
+            #promotions:
+            #  - name: Dockerize
+            #    pipeline_file: docker-build.yml
+            #    auto_promote_on:
+            #      - result: passed
